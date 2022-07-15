@@ -6,9 +6,18 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Hello</h1>
         <Weather />
       </header>
+      <p>
+        This project was coded by Anaïs Flechier and is open-sourced on {""}
+        <a
+          href="https://github.com/ana4is/weather-project-react-shecodes"
+          target="_blank"
+          rel="noreferrer"
+        >
+          GitHub
+        </a>
+      </p>
     </div>
   );
 }
