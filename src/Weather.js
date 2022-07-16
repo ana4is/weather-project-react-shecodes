@@ -20,7 +20,10 @@ export default function Weather() {
           </div>
         </div>
       </div>
-      <p>end</p>
+      <p>new react</p>
+      <button type="button" class="btn btn-info">
+        Info
+      </button>
     </div>
   );
 }
