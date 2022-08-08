@@ -1,0 +1,13 @@
+.Weather {
+  border: 2px solid #113f67;
+  border-radius: 4px;
+  padding: 15px;
+}
+ul {
+  list-style: none;
+}
+h1 {
+  color: #113f67;
+  margin-top: 20px;
+  text-align: center;
+}

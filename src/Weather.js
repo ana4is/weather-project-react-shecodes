@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Weather.css";
 import axios from "axios";
 
 export default function Weather() {
@@ -29,37 +30,46 @@ export default function Weather() {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${unit}`;
     axios.get(apiUrl).then(showWeatherDescritption);
   }
-  if (search) {
-    return (
-      <div className="Weather">
-        <form onSubmit={searchEngine}>
-          <div className="row">
-            <span className="col-9">
-          <input type="search" placeholder="Type a city..." />
+
+  return (
+    <div className="Weather">
+      <form onSubmit={searchEngine}>
+        <div className="row">
+          <span className="col-9">
+            <input
+              type="search"
+              placeholder="Type a city..."
+              autoFocus="on"
+              onChange={showCity}
+            />
           </span>
-          <input type="submit" value="search" />
-        </form>
-        <h1>SEVILLA</h1>
-        <div className="container">
-          <div className="row">
-            <div className="col-6">Temperature: 20 C</div>
-            <div className="col-6">
-              <ul>
-                <li>Precipitations :</li>
-                <li>Wind:</li>
-                <li>Humidity</li>
-              </ul>
-            </div>
-          </div>
+          <span className="col-3">
+            <input type="submit" value="search" />
+          </span>
         </div>
-        <p>new react</p>
-        <button type="button" class="btn btn-info">
-          Info
-        </button>
+      </form>
+      <div className="row">
+        <div className="col-4">icon</div>
+        <div className="col-7">
+          <h1>{weather.city}</h1>
+        </div>
       </div>
-    );
-  } else {
-    searchEngine();
-    return "Loading...";
-  }
+      <div className="row">
+        <div className="col-6">
+          <ul>
+            <li>{weather.description}</li>
+            <li>Temperature: {weather.temperature} C</li>
+          </ul>
+        </div>
+        <div className="col-6">
+          <ul>
+            <li>Today´s Details</li>
+            <li>Precipitations: {weather.precipitations}</li>
+            <li>Wind: {weather.wind}</li>
+            <li>Humidity: {weather.humidity}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
 }
