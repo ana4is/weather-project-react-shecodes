@@ -1,23 +1,29 @@
 import React, { useState } from "react";
 import "./Weather.css";
+import "./FormattedDate";
 import axios from "axios";
+import FormattedDate from "./FormattedDate";
 
-export default function Weather() {
-  const [city, setCity] = useState("");
-  const [search, setSearch] = useState(false);
-  const [weather, setWeather] = useState({});
+export default function Weather(props) {
+  const [city, setCity] = useState(props.defaultCity);
+  const [weather, setWeather] = useState({ search: false });
 
   function showWeatherDescritption(response) {
-    console.log(response.data);
-    setSearch(true);
     setWeather({
-      temperature: response.data.main.temp,
-      wind: response.data.wind.speed,
+      search: true,
+      temperature: Math.round(response.data.main.temp),
+      wind: Math.round(response.data.wind.speed),
       precipitations: response.data.main.pressure,
       description: response.data.weather.description,
       humidity: response.data.main.humidity,
       city: response.data.name,
+      date: new Date(response.data.dt * 1000),
     });
+  }
+
+  function submitForm(event) {
+    event.preventDefault();
+    searchEngine();
   }
 
   function showCity(event) {
@@ -30,46 +36,51 @@ export default function Weather() {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${unit}`;
     axios.get(apiUrl).then(showWeatherDescritption);
   }
-
-  return (
-    <div className="Weather">
-      <form onSubmit={searchEngine}>
+  if (weather.search) {
+    return (
+      <div className="Weather">
+        <form onSubmit={submitForm}>
+          <div className="row">
+            <span className="col-9">
+              <input
+                type="search"
+                placeholder="Type a city..."
+                autoFocus="on"
+                onChange={showCity}
+              />
+            </span>
+            <span className="col-3">
+              <input type="submit" value="search" />
+            </span>
+          </div>
+        </form>
         <div className="row">
-          <span className="col-9">
-            <input
-              type="search"
-              placeholder="Type a city..."
-              autoFocus="on"
-              onChange={showCity}
-            />
-          </span>
-          <span className="col-3">
-            <input type="submit" value="search" />
-          </span>
+          <div className="col-4">icon</div>
+          <div className="col-7">
+            <h1>{weather.city}</h1>
+          </div>
+          <FormattedDate date={weather.date} />
         </div>
-      </form>
-      <div className="row">
-        <div className="col-4">icon</div>
-        <div className="col-7">
-          <h1>{weather.city}</h1>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-6">
-          <ul>
-            <li>{weather.description}</li>
-            <li>Temperature: {weather.temperature} C</li>
-          </ul>
-        </div>
-        <div className="col-6">
-          <ul>
-            <li>Today´s Details</li>
-            <li>Precipitations: {weather.precipitations}</li>
-            <li>Wind: {weather.wind}</li>
-            <li>Humidity: {weather.humidity}</li>
-          </ul>
+        <div className="row">
+          <div className="col-6">
+            <ul>
+              <li>{weather.description}</li>
+              <li>Temperature: {weather.temperature} C</li>
+            </ul>
+          </div>
+          <div className="col-6">
+            <ul>
+              <li>Today´s Details</li>
+              <li>Precipitations: {weather.precipitations}</li>
+              <li>Wind: {weather.wind}</li>
+              <li>Humidity: {weather.humidity}</li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    searchEngine();
+    return "Loading...";
+  }
 }
