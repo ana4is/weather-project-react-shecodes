@@ -3,6 +3,7 @@ import "./Weather.css";
 import "./FormattedDate";
 import axios from "axios";
 import FormattedDate from "./FormattedDate";
+import WeatherIcon from "./WeatherIcon";
 
 export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
@@ -18,6 +19,7 @@ export default function Weather(props) {
       humidity: response.data.main.humidity,
       city: response.data.name,
       date: new Date(response.data.dt * 1000),
+      icon: response.data.weather[0].icon,
     });
   }
 
@@ -55,7 +57,9 @@ export default function Weather(props) {
           </div>
         </form>
         <div className="row">
-          <div className="col-4">icon</div>
+          <div className="col-4">
+            <WeatherIcon code={weather.icon} />
+          </div>
           <div className="col-7">
             <h1>{weather.city}</h1>
           </div>
