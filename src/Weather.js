@@ -4,6 +4,7 @@ import "./FormattedDate";
 import axios from "axios";
 import FormattedDate from "./FormattedDate";
 import WeatherIcon from "./WeatherIcon";
+import WeatherTemperature from "./WeatherTemperature";
 
 export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
@@ -15,7 +16,7 @@ export default function Weather(props) {
       temperature: Math.round(response.data.main.temp),
       wind: Math.round(response.data.wind.speed),
       precipitations: response.data.main.pressure,
-      description: response.data.weather.description,
+      description: response.data.weather[0].description,
       humidity: response.data.main.humidity,
       city: response.data.name,
       date: new Date(response.data.dt * 1000),
@@ -69,7 +70,10 @@ export default function Weather(props) {
           <div className="col-6">
             <ul>
               <li>{weather.description}</li>
-              <li>Temperature: {weather.temperature} C</li>
+              <li>
+                Temperature:{" "}
+                <WeatherTemperature celsius={weather.temperature} /> C
+              </li>
             </ul>
           </div>
           <div className="col-6">
