@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import "./Weather.css";
 import "./FormattedDate";
 import axios from "axios";
-import FormattedDate from "./FormattedDate";
-import WeatherIcon from "./WeatherIcon";
-import WeatherTemperature from "./WeatherTemperature";
+import WeatherInfo from "./WeatherInfo";
 
 export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
@@ -57,34 +55,7 @@ export default function Weather(props) {
             </span>
           </div>
         </form>
-        <div className="row">
-          <div className="col-4">
-            <WeatherIcon code={weather.icon} />
-          </div>
-          <div className="col-7">
-            <h1>{weather.city}</h1>
-          </div>
-          <FormattedDate date={weather.date} />
-        </div>
-        <div className="row">
-          <div className="col-6">
-            <ul>
-              <li>{weather.description}</li>
-              <li>
-                Temperature:{" "}
-                <WeatherTemperature celsius={weather.temperature} /> C
-              </li>
-            </ul>
-          </div>
-          <div className="col-6">
-            <ul>
-              <li>Today´s Details</li>
-              <li>Precipitations: {weather.precipitations}</li>
-              <li>Wind: {weather.wind}</li>
-              <li>Humidity: {weather.humidity}</li>
-            </ul>
-          </div>
-        </div>
+        <WeatherInfo data={weather} />
       </div>
     );
   } else {
